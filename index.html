@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>প্রজেক্টর সাইন জেনারেটর - দোকান ও অফিসের সাইন</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;700&display=swap');
+        
+        body {
+            font-family: 'Noto Sans Bengali', system-ui, sans-serif;
+        }
+        
+        .neon-text {
+            animation: neon-flicker 1.5s infinite alternate;
+        }
+        
+        @keyframes neon-flicker {
+            0% { opacity: 1; }
+            100% { opacity: 0.95; }
+        }
+        
+        .sign-board {
+            background: linear-gradient(145deg, #1a1a2e, #16213e);
+            border: 12px solid #0ea5e9;
+            box-shadow: 
+                0 0 30px #0ea5e9,
+                0 0 60px #0ea5e9,
+                inset 0 0 40px rgba(14, 165, 233, 0.5),
+                0 25px 50px -12px rgb(0 0 0 / 0.4);
+            position: relative;
+        }
+        
+        .sign-board::before {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 12px;
+            background: #0ea5e9;
+            box-shadow: 0 0 25px #0ea5e9;
+            z-index: 10;
+            border-radius: 50%;
+        }
+        
+        .projector-light {
+            position: absolute;
+            top: -80px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, rgba(14, 165, 233, 0.3) 0%, transparent 70%);
+            filter: blur(20px);
+            z-index: -1;
+            animation: light-beam 4s ease-in-out infinite;
+        }
+        
+        @keyframes light-beam {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+        
+        .led-dots {
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 30px;
+        }
+        
+        .led-dot {
+            width: 12px;
+            height: 12px;
+            background: #22d3ee;
+            border-radius: 50%;
+            box-shadow: 0 0 15px #22d3ee;
+            animation: led-blink 1s infinite;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-zinc-950 to-slate-900 text-white min-h-screen">
+    <div class="max-w-5xl mx-auto px-6 py-12">
+        <!-- হেডার -->
+        <div class="text-center mb-10">
+            <div class="inline-flex items-center gap-3 bg-white/10 backdrop-blur-md px-8 py-3 rounded-3xl border border-white/20 mb-6">
+                <span class="text-4xl">📽️</span>
+                <h1 class="text-5xl font-bold tracking-tighter">প্রজেক্টর সাইন</h1>
+                <span class="text-4xl">🪧</span>
+            </div>
+            <p class="text-2xl text-cyan-300">দোকান • অফিস • শপিং মলের সামনে লাগানোর মতো লাইটেড সাইন তৈরি করুন</p>
+            <p class="text-slate-400 mt-2">আপনার নাম দিন → প্রজেক্টর স্টাইল সাইন দেখুন → PNG ডাউনলোড করুন</p>
+        </div>
+
+        <div class="grid lg:grid-cols-2 gap-10">
+            
+            <!-- ইনপুট প্যানেল -->
+            <div class="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8">
+                <div class="space-y-8">
+                    <div>
+                        <label class="block text-cyan-400 text-lg mb-2 font-medium">আপনার দোকান / অফিসের নাম লিখুন</label>
+                        <input 
+                            id="nameInput"
+                            type="text" 
+                            class="w-full bg-white/10 border border-cyan-400/30 focus:border-cyan-400 rounded-2xl px-6 py-5 text-3xl outline-none transition-all placeholder:text-slate-400 text-white"
+                            placeholder="যেমন: খুলনা ইলেকট্রনিক্স"
+                            value="খুলনা স্টোর">
+                    </div>
+
+                    <div>
+                        <label class="block text-cyan-400 text-lg mb-2 font-medium">সাইনের ধরন</label>
+                        <div class="grid grid-cols-3 gap-3">
+                            <button onclick="setStyle(0)" id="style0" class="style-btn active flex flex-col items-center justify-center py-4 bg-white/10 hover:bg-cyan-400/20 rounded-2xl border-2 border-transparent transition-all">
+                                <span class="text-3xl mb-1">🔵</span>
+                                <span class="text-sm font-medium">নিয়ন ব্লু</span>
+                            </button>
+                            <button onclick="setStyle(1)" id="style1" class="style-btn flex flex-col items-center justify-center py-4 bg-white/10 hover:bg-emerald-400/20 rounded-2xl border-2 border-transparent transition-all">
+                                <span class="text-3xl mb-1">🟢</span>
+                                <span class="text-sm font-medium">এলইডি গ্রিন</span>
+                            </button>
+                            <button onclick="setStyle(2)" id="style2" class="style-btn flex flex-col items-center justify-center py-4 bg-white/10 hover:bg-amber-400/20 rounded-2xl border-2 border-transparent transition-all">
+                                <span class="text-3xl mb-1">🔴</span>
+                                <span class="text-sm font-medium">নিয়ন রেড</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-4">
+                        <button onclick="generateSign()" 
+                                class="flex-1 bg-cyan-500 hover:bg-cyan-400 transition-all text-black font-bold text-xl py-6 rounded-3xl flex items-center justify-center gap-3">
+                            <span>সাইন তৈরি করুন</span>
+                            <span class="text-3xl">✨</span>
+                        </button>
+                        
+                        <button onclick="downloadPNG()" 
+                                class="flex-1 bg-white/10 hover:bg-white/20 border border-white/30 transition-all font-bold text-xl py-6 rounded-3xl flex items-center justify-center gap-3">
+                            <span>📥 PNG ডাউনলোড</span>
+                        </button>
+                    </div>
+
+                    <div class="text-xs text-slate-400 text-center">
+                        প্রজেক্টর / এলইডি বোর্ড / নিয়ন সাইন বানানোর জন্য পারফেক্ট।<br>
+                        দোকানের সামনে লাগিয়ে ব্যবহার করুন অথবা প্রজেক্টরে প্রজেক্ট করুন।
+                    </div>
+                </div>
+            </div>
+
+            <!-- প্রিভিউ প্যানেল -->
+            <div class="flex flex-col">
+                <div class="text-sm text-slate-400 mb-3 flex items-center gap-2">
+                    <div class="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+                    লাইভ প্রিভিউ (প্রজেক্টর স্টাইল)
+                </div>
+                
+                <div id="previewContainer" class="sign-board mx-auto rounded-3xl w-full max-w-[620px] aspect-[16/9] flex items-center justify-center relative overflow-hidden">
+                    
+                    <!-- প্রজেক্টর লাইট ইফেক্ট -->
+                    <div class="projector-light"></div>
+                    
+                    <div class="text-center px-12 relative z-10 w-full">
+                        <div id="previewText" 
+                             class="neon-text text-6xl lg:text-7xl font-bold tracking-[0.15em] leading-none text-white"
+                             style="text-shadow: 0 0 15px #0ea5e9, 0 0 30px #0ea5e9, 0 0 50px #0ea5e9, 0 0 80px #0ea5e9;">
+                            খুলনা স্টোর
+                        </div>
+                        <div class="text-cyan-300/70 text-xl mt-6 tracking-widest font-medium">OPEN • ২৪ ঘণ্টা</div>
+                    </div>
+                    
+                    <!-- LED ডটস -->
+                    <div class="led-dots">
+                        <div class="led-dot" style="animation-delay: 0s"></div>
+                        <div class="led-dot" style="animation-delay: 200ms"></div>
+                        <div class="led-dot" style="animation-delay: 400ms"></div>
+                        <div class="led-dot" style="animation-delay: 600ms"></div>
+                        <div class="led-dot" style="animation-delay: 800ms"></div>
+                        <div class="led-dot" style="animation-delay: 1000ms"></div>
+                        <div class="led-dot" style="animation-delay: 1200ms"></div>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-8 text-slate-400 text-sm">
+                    এই সাইনটি আপনি প্রিন্ট করে দোকানের সামনে লাগাতে পারবেন<br>
+                    অথবা প্রজেক্টর / এলইডি বোর্ডে ব্যবহার করতে পারবেন
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tailwind স্ক্রিপ্ট ইনিশিয়ালাইজ
+        function initTailwind() {
+            tailwind.config = {
+                content: [],
+                theme: {
+                    extend: {}
+                }
+            }
+        }
+        
+        // বর্তমান স্টাইল
+        let currentStyle = 0;
+        const styles = [
+            { name: 'neon-blue', color: '#0ea5e9', shadow: '0 0 15px #0ea5e9, 0 0 30px #0ea5e9, 0 0 50px #0ea5e9, 0 0 80px #0ea5e9' },
+            { name: 'led-green', color: '#10b981', shadow: '0 0 15px #10b981, 0 0 30px #10b981, 0 0 50px #10b981, 0 0 80px #10b981' },
+            { name: 'neon-red', color: '#f43f5e', shadow: '0 0 15px #f43f5e, 0 0 30px #f43f5e, 0 0 50px #f43f5e, 0 0 80px #f43f5e' }
+        ];
+        
+        // স্টাইল চেঞ্জ করার ফাংশন
+        function setStyle(index) {
+            currentStyle = index;
+            
+            // সব বাটন থেকে active সরান
+            document.querySelectorAll('.style-btn').forEach(btn => btn.classList.remove('active', 'border-cyan-400'));
+            
+            // নতুন বাটনকে active করুন
+            document.getElementById(`style${index}`).classList.add('active', 'border-cyan-400');
+            
+            updatePreview();
+        }
+        
+        // প্রিভিউ আপডেট করুন
+        function updatePreview() {
+            const inputText = document.getElementById('nameInput').value.trim() || 'আপনার নাম';
+            const previewEl = document.getElementById('previewText');
+            
+            previewEl.textContent = inputText;
+            
+            // স্টাইল অনুযায়ী কালার ও শ্যাডো অ্যাপ্লাই করুন
+            const style = styles[currentStyle];
+            previewEl.style.color = '#ffffff';
+            previewEl.style.textShadow = style.shadow;
+            
+            // বর্ডার কালার চেঞ্জ
+            const board = document.getElementById('previewContainer');
+            board.style.borderColor = style.color;
+        }
+        
+        // সাইন জেনারেট (রিয়েল-টাইম আপডেট)
+        function generateSign() {
+            updatePreview();
+            
+            // ছোট অ্যানিমেশন ইফেক্ট
+            const container = document.getElementById('previewContainer');
+            container.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                container.style.transition = 'transform 0.3s ease';
+                container.style.transform = 'scale(1)';
+            }, 1);
+        }
+        
+        // PNG ডাউনলোড (ক্যানভাস দিয়ে হাই কোয়ালিটি ইমেজ)
+        function downloadPNG() {
+            const inputText = document.getElementById('nameInput').value.trim() || 'আপনার নাম';
+            const style = styles[currentStyle];
+            
+            // ক্যানভাস তৈরি
+            const canvas = document.createElement('canvas');
+            canvas.width = 1280;
+            canvas.height = 720;
+            const ctx = canvas.getContext('2d');
+            
+            // ব্যাকগ্রাউন্ড
+            const gradient = ctx.createLinearGradient(0, 0, 0, 720);
+            gradient.addColorStop(0, '#1a1a2e');
+            gradient.addColorStop(1, '#16213e');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, 1280, 720);
+            
+            // বর্ডার (নিয়ন গ্লো)
+            ctx.shadowColor = style.color;
+            ctx.shadowBlur = 80;
+            ctx.lineWidth = 40;
+            ctx.strokeStyle = style.color;
+            ctx.strokeRect(60, 60, 1280 - 120, 720 - 120);
+            
+            // ইনার বোর্ড
+            ctx.shadowBlur = 0;
+            ctx.fillStyle = '#0f172a';
+            ctx.fillRect(100, 100, 1280 - 200, 720 - 200);
+            
+            // টেক্সট - নিয়ন ইফেক্ট
+            ctx.shadowColor = style.color;
+            ctx.shadowBlur = 45;
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 140px "Noto Sans Bengali", sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(inputText, 640, 360);
+            
+            // ছোট টেক্সট
+            ctx.shadowBlur = 15;
+            ctx.font = '700 38px "Noto Sans Bengali", sans-serif';
+            ctx.fillStyle = '#67e8f9';
+            ctx.fillText('দোকান খোলা • ২৪ ঘণ্টা', 640, 480);
+            
+            // LED ডটস (নিচে)
+            ctx.shadowBlur = 25;
+            for (let i = 0; i < 12; i++) {
+                ctx.fillStyle = style.color;
+                ctx.fillRect(180 + i * 78, 630, 14, 14);
+            }
+            
+            // ডাউনলোড
+            const link = document.createElement('a');
+            link.download = `প্রজেক্টর-সাইন-${inputText}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            
+            // সাকসেস মেসেজ
+            const msg = document.createElement('div');
+            msg.style.cssText = 'position:fixed; bottom:30px; left:50%; transform:translateX(-50%); background:#10b981; color:white; padding:16px 32px; border-radius:9999px; box-shadow:0 10px 15px -3px rgb(16 185 129); font-weight:700;';
+            msg.textContent = '✅ PNG সফলভাবে ডাউনলোড হয়েছে!';
+            document.body.appendChild(msg);
+            setTimeout(() => msg.remove(), 2500);
+        }
+        
+        // রিয়েল-টাইম আপডেট
+        function liveUpdate() {
+            const input = document.getElementById('nameInput');
+            input.addEventListener('input', () => {
+                updatePreview();
+            });
+        }
+        
+        // পেজ লোড হলে সবকিছু শুরু করুন
+        window.onload = function() {
+            initTailwind();
+            liveUpdate();
+            updatePreview(); // প্রথমবার লোড
+            console.log('%c✅ প্রজেক্টর সাইন জেনারেটর রেডি! আপনার নাম দিন আর সাইন বানান।', 'color:#0ea5e9; font-size:14px; font-weight:bold');
+        };
+    </script>
+</body>
+</html>
